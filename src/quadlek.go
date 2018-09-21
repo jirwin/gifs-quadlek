@@ -63,7 +63,7 @@ func gifSaveCommand(ctx context.Context, cmdChannel <-chan *quadlek.CommandMsg) 
 				}
 				continue
 			}
-			gUrl, err := url.Parse(parts[1])
+			gUrl, err := url.Parse(parts[0])
 			if err != nil {
 				cmdMsg.Command.Reply() <- &quadlek.CommandResp{
 					Text:      fmt.Sprintf("Invalid url: %s", parts[1]),
@@ -72,7 +72,7 @@ func gifSaveCommand(ctx context.Context, cmdChannel <-chan *quadlek.CommandMsg) 
 				continue
 			}
 
-			phrase := strings.Join(parts[2:], " ")
+			phrase := strings.Join(parts[1:], " ")
 
 			err = cmdMsg.Store.Update(phrase, []byte(gUrl.String()))
 			if err != nil {
