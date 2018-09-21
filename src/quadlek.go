@@ -63,6 +63,7 @@ func gifSaveCommand(ctx context.Context, cmdChannel <-chan *quadlek.CommandMsg) 
 				}
 				continue
 			}
+
 			gUrl, err := url.Parse(parts[0])
 			if err != nil {
 				cmdMsg.Command.Reply() <- &quadlek.CommandResp{
@@ -77,10 +78,15 @@ func gifSaveCommand(ctx context.Context, cmdChannel <-chan *quadlek.CommandMsg) 
 			err = cmdMsg.Store.Update(phrase, []byte(gUrl.String()))
 			if err != nil {
 				cmdMsg.Command.Reply() <- &quadlek.CommandResp{
-					Text:      fmt.Sprintf("Unable to save phrase: %s", err.Error()),
+					Text:      fmt.Sprintf("Unable to save gif phrase: %s", err.Error()),
 					InChannel: false,
 				}
 				continue
+			}
+
+			cmdMsg.Command.Reply() <- &quadlek.CommandResp{
+				Text:      "Successfully stored gif phrase.",
+				InChannel: false,
 			}
 
 		case <-ctx.Done():
