@@ -10,7 +10,7 @@ github.com/gorilla/schema
 # github.com/gorilla/websocket v1.5.0
 ## explicit; go 1.12
 github.com/gorilla/websocket
-# github.com/jirwin/quadlek v0.0.0-20220620070817-ee4dc9835d51
+# github.com/jirwin/quadlek v0.0.0-20220620175107-e109b8001e49
 ## explicit; go 1.13
 github.com/jirwin/quadlek/quadlek
 # github.com/peterhellberg/giphy v0.0.0-20220111102515-dcc13c187a93
