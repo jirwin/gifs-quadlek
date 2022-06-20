@@ -3,7 +3,7 @@ module github.com/jirwin/gifs-quadlek
 go 1.18
 
 require (
-	github.com/jirwin/quadlek v0.0.0-20220620175107-e109b8001e49
+	github.com/jirwin/quadlek v0.0.0-20220620191731-ca14e06fd0f9
 	github.com/peterhellberg/giphy v0.0.0-20220111102515-dcc13c187a93
 	go.uber.org/zap v1.21.0
 )
