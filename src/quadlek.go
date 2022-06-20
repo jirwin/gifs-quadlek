@@ -20,7 +20,7 @@ func gifCommand(ctx context.Context, cmdChannel <-chan *quadlek.CommandMsg) {
 		case cmdMsg := <-cmdChannel:
 			text := cmdMsg.Command.Text
 			if text != "" {
-				cmdMsg.Store.Get(text, func(v []byte) error {
+				_ = cmdMsg.Store.Get(text, func(v []byte) error {
 					if v != nil {
 						cmdMsg.Command.Reply() <- &quadlek.CommandResp{
 							Text:      string(v),
