@@ -16,7 +16,7 @@ import (
 var gifs *Gifs
 
 const (
-	SaveReaction = "good-bot"
+	GoodBotReaction = "good-bot"
 )
 
 func gifCommand(ctx context.Context, cmdChannel <-chan *quadlek.CommandMsg) {
@@ -49,6 +49,7 @@ func gifCommand(ctx context.Context, cmdChannel <-chan *quadlek.CommandMsg) {
 					}
 					return nil
 				})
+
 				if gifUrl != "" {
 					err = cmdMsg.Store.Update(fmt.Sprintf("url:%s", gifUrl), []byte(text))
 					if err != nil {
@@ -113,22 +114,24 @@ func gifReaction(ctx context.Context, reactionChannel <-chan *quadlek.ReactionHo
 	for {
 		select {
 		case rh := <-reactionChannel:
-			if strings.HasPrefix(rh.Reaction.Reaction, SaveReaction) {
+			if rh.Reaction.Reaction == GoodBotReaction {
 				msg, err := rh.Bot.GetMessage(rh.Reaction.Item.Channel, rh.Reaction.Item.Timestamp)
 				if err != nil {
 					fmt.Println("error getting message:", err.Error())
 					continue
 				}
 
-				if msg.User != rh.Bot.GetUserId() {
+				if msg.User != "" {
 					continue
 				}
-
-				err = rh.Store.Get(fmt.Sprintf("url:%s", msg.Text), func(b []byte) error {
-					if b != nil {
+				gifUrl := strings.TrimPrefix(msg.Text, "<")
+				gifUrl = strings.TrimSuffix(gifUrl, ">")
+				err = rh.Store.Get(fmt.Sprintf("url:%s", gifUrl), func(b []byte) error {
+					if b == nil {
 						return nil
 					}
-					err = rh.Store.Update(string(b), []byte(msg.Text))
+
+					err = rh.Store.Update(string(b), []byte(gifUrl))
 					if err != nil {
 						return err
 					}
